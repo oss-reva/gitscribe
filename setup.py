@@ -9,5 +9,5 @@ setup(
     version=VERSION,
 
     packages=find_packages(),
-    scripts=["bin/gbot"]
+    scripts=["scripts/gbot"]
 )
