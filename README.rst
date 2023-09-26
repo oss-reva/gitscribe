@@ -48,9 +48,15 @@ To use gbot.py, provide the Discord bot token as follows:
 
 Replace `DISCORD_BOT_TOKEN` with your actual Discord bot token.
 
+Contributing
+------------
+
+If you'd like to contribute to this project, please read our `Contributing Guidelines`_.
+
 License
 -------
 
 gbot.py is licensed under the MIT License. See the LICENSE_ file for details.
 
 .. _LICENSE: https://github.com/virajsazzala/gbot.py/blob/main/LICENSE
+.. _Contributing Guidelines: https://github.com/virajsazzala/gbot.py/blob/main/CONTRIBUTING.md
