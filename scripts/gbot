@@ -1,126 +1,37 @@
-#!/usr/bin/env python3
-import re
+#!/usr/bin/env python
+
+import argparse
 import os
-import discord
-import requests
-from dotenv import load_dotenv
-from discord.ext import commands
+import sys
 
-load_dotenv()
-
-TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+import dotenv
+dotenv.load_dotenv()
 
 
-# Bot's intents
-intents = discord.Intents.default()
-intents.typing = False
-intents.presences = False
-intents.message_content = True
+def run(token):
+    from gbot import bot
 
-# Bot instance
-bot = commands.Bot(command_prefix='!', intents=intents, disable_auto_responses=True)
+    bot.run(token)
 
-@bot.event
-async def on_ready():
-    print(f'Logged in as {bot.user.name}')
 
-def get_repository_info(username, repo_name):
-    url = f'https://api.github.com/repos/{username}/{repo_name}'
-    response = requests.get(url)
-    return response.json() if response.status_code == 200 else None
-
-def get_issue_info(username, repo_name, issue_number):
-    url = f'https://api.github.com/repos/{username}/{repo_name}/issues/{issue_number}'
-    response = requests.get(url)
-    return response.json() if response.status_code == 200 else None
-
-def get_repo_issues(username, repo_name):
-    url = f'https://api.github.com/repos/{username}/{repo_name}/issues'
-    response = requests.get(url)
-    if response.status_code == 200:
-        issues = response.json()
-        total_issues = len(issues)
-        good_first_issue_count = sum(1 for issue in issues if 'good first issue' in issue.get('title', '').lower())
-        return total_issues, good_first_issue_count
-    return None, None
-
-@bot.command()
-async def repo(ctx, repo_link):
-    # Extract the GitHub username and repository name from the link
-    match = re.match(r'https://github.com/([^/]+)/([^/]+)', repo_link)
-    if not match:
-        await ctx.send('Invalid GitHub repo link format. Please provide a valid link.')
-        return
-
-    username, repo_name = match.group(1), match.group(2)
-    
-    repo_data = get_repository_info(username, repo_name)
-    
-    if repo_data:
-        total_issues, good_first_issue_count = get_repo_issues(username, repo_name)
-        await ctx.send(format_github_info(repo_data, total_issues, good_first_issue_count))
-    else:
-        await ctx.send('Repository not found or an error occurred.')
-
-@bot.command()
-async def issue(ctx, issue_link):
-    # Use Regex to extract the GitHub username, repository name, and issue number from the link
-    match = re.match(r'https://github.com/([^/]+)/([^/]+)/issues/(\d+)', issue_link)
-    if not match:
-        await ctx.send('Invalid GitHub issue link format. Please provide a valid link.')
-        return
-
-    username, repo_name, issue_number = match.group(1), match.group(2), match.group(3)
-
-    repo_data = get_repository_info(username, repo_name)
-    issue_data = get_issue_info(username, repo_name, issue_number)
-
-    if repo_data and issue_data:
-        await ctx.send(format_github_info(repo_data, None, None, issue_data))
-    else:
-        await ctx.send('Issue or repository not found or an error occurred.')
-
-def format_github_info(repo_data, total_issues=None, good_first_issue_count=None, issue_data=None):
-    description = repo_data['description'] or '*No description*'
-    stars = repo_data['stargazers_count']
-    forks = repo_data['forks_count']
-    url = repo_data['html_url']
-    
-    formatted_info = (
-        f"__**Repository Info**__\n"
-        f"**Repository Name:** {repo_data['name']}\n"
-        f"**Description:** {description}\n"
-        f"**Stars:** {stars}\n"
-        f"**Forks:** {forks}\n"
-        f"**URL:** {url}\n"
+def main(argv=sys.argv[1:]):
+    ap = argparse.ArgumentParser(description='Runtime for the Discord Bot')
+    ap.add_argument(
+        '--token',
+        default=os.getenv("DISCORD_BOT_TOKEN"),
+        type=str,
+        help='The Discord Bot Token'
     )
-    
-    if total_issues is not None:
-        formatted_info += (
-            f"**Total Issues:** {total_issues}\n"
-            f"**Good First Issues:** {good_first_issue_count}\n"
-        )
-    
-    if issue_data:
-        title = issue_data['title']
-        number = issue_data['number']
-        created_by = issue_data['user']['login']
-        state = 'Open' if issue_data['state'] == 'open' else 'Closed'
-        assigned = issue_data['assignee']['login'] if issue_data['assignee'] else '*Not assigned*'
-        description = re.sub(r'(https?://[^\s]+)', r'`\1`', issue_data['body'][:1000])
-        
-        formatted_info += (
-            f"\n__**Issue Info**__\n"
-            f"**Issue Title:** {title}\n"
-            f"**Issue Number:** {number}\n"
-            f"**Created By:** {created_by}\n"
-            f"**Status:** {state}\n"
-            f"**Assigned:** {assigned}\n"
-            f"\n__**Description (Partial)**__\n{description}\n"
-            f"\nFor the full description, please view the issue on GitHub."
-        )
-    
-    return formatted_info
 
-# Run the bot with your token
-bot.run(TOKEN)
+    args = ap.parse_args(argv)
+
+    if args.token is None:
+        raise ValueError(
+            "A Discord Bot token is required (--token HERE), or a .env file works")
+
+    # Run the bot
+    run(args.token)
+
+
+if __name__ == '__main__':
+    main()
