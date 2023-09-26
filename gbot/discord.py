@@ -3,8 +3,8 @@ import re
 import discord
 from discord.ext import commands
 
-from gbot.apis.github import get_repository_info, get_issue_info, get_repo_issues
-from gbot.utils import format_github_info
+from .apis.github import get_repository_info, get_issue_info, get_repo_issues
+from .utils import format_github_info
 
 
 __all__ = ['bot']
