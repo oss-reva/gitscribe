@@ -1,6 +1,6 @@
 # Contributing to gbot.py
 
-Thank you for considering contributing to gbot.py! We welcome contributions from the community to make this project better.
+Thank you for considering contributing to gitscribe! We welcome contributions from the community to make this project better.
 
 ## How to Contribute
 

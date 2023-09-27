@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from gbot.consts import NAME, VERSION
+from gitscribe.consts import NAME, VERSION
 
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
@@ -14,7 +14,7 @@ setup(
     long_description=long_description,
     author="SNG Viraj Reddy",
     author_email="vir200319@gmail.com",
-    url="https://github.com/oss-reva/gbot.py",
+    url="https://github.com/oss-reva/gitscribe",
     license="MIT",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -33,6 +33,6 @@ setup(
     packages=find_packages(),
     install_requires=requirements,
     scripts=[
-        "scripts/gbot"
+        "scripts/gitscribe"
     ]
 )
