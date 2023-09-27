@@ -1,20 +1,20 @@
 ============================
-gbot.py
+gitscribe
 ============================
 
-gbot.py is a Python Discord bot that provides information about GitHub repositories and issues. It's designed to make it easier for users to retrieve details about GitHub projects directly within a Discord server.
+gitscribe is a Python Discord bot that provides information about GitHub repositories and issues. It's designed to make it easier for users to retrieve details about GitHub projects directly within a Discord server.
 
 Installation
 ------------
 
-To deploy gbot.py, follow these steps:
+To deploy gitscribe, follow these steps:
 
 1. Clone the repository:
 
    .. code-block:: bash
    
-      git clone https://github.com/oss-reva/gbot.py.git
-      cd gbot.py
+      git clone https://github.com/oss-reva/gitscribe.git
+      cd gitscribe
 
 2. Install the package:
 
@@ -22,14 +22,14 @@ To deploy gbot.py, follow these steps:
 
       pip install .
 
-To build and develop gbot.py, follow these steps:
+To build and develop gitscribe, follow these steps:
 
 1. Clone the repository:
 
    .. code-block:: bash
    
-      git clone https://github.com/oss-reva/gbot.py.git
-      cd gbot.py
+      git clone https://github.com/oss-reva/gitscribe.git
+      cd gitscribe
 
 2. Install the package in editable mode:
 
@@ -40,11 +40,11 @@ To build and develop gbot.py, follow these steps:
 Usage
 -----
 
-To use gbot.py, provide the Discord bot token as follows:
+To use gitscribe, provide the Discord bot token as follows:
 
    .. code-block:: bash
 
-      gbot --token DISCORD_BOT_TOKEN
+      gitscribe --token DISCORD_BOT_TOKEN
 
 Replace `DISCORD_BOT_TOKEN` with your actual Discord bot token.
 
@@ -56,7 +56,7 @@ If you'd like to contribute to this project, please read our `Contributing Guide
 License
 -------
 
-gbot.py is licensed under the MIT License. See the LICENSE_ file for details.
+gitscribe is licensed under the MIT License. See the LICENSE_ file for details.
 
-.. _LICENSE: https://github.com/virajsazzala/gbot.py/blob/main/LICENSE
-.. _Contributing Guidelines: https://github.com/virajsazzala/gbot.py/blob/main/CONTRIBUTING.md
+.. _LICENSE: https://github.com/oss-reva/gitscribe/blob/main/LICENSE
+.. _Contributing Guidelines: https://github.com/oss-reva/gitscribe/blob/main/CONTRIBUTING.md

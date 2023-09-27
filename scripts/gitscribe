@@ -9,7 +9,7 @@ dotenv.load_dotenv()
 
 
 def run(token):
-    from gbot import bot
+    from gitscribe import bot
 
     bot.run(token)
 
