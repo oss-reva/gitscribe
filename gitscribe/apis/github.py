@@ -18,7 +18,7 @@ def get_repo_issues(username, repo_name):
     response = requests.get(url)
     if response.status_code == 200:
         issues = response.json()
-        total_issues = len(issues)
+        total_issues = issues['open_issues_count']
         good_first_issue_count = sum(
             1 for issue in issues if 'good first issue' in issue.get('title', '').lower())
         return total_issues, good_first_issue_count
