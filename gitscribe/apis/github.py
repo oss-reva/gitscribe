@@ -14,12 +14,20 @@ def get_issue_info(username, repo_name, issue_number):
 
 
 def get_repo_issues(username, repo_name):
-    url = f'https://api.github.com/repos/{username}/{repo_name}/issues'
+   label_name ='good%20first%20issue'
+    url = f'https://api.github.com/repos/{username}/{repo_name}/issues?labels={label_name}'
     response = requests.get(url)
+    print(response)
     if response.status_code == 200:
-        issues = response.json()
-        total_issues = issues['open_issues_count']
-        good_first_issue_count = sum(
-            1 for issue in issues if 'good first issue' in issue.get('title', '').lower())
-        return total_issues, good_first_issue_count
+        issues = response.json()   
+        print(issues)
+        total_issues=0
+        good_first_issue_count=0
+        for issue in issues:
+            for label in issue["labels"]:
+                 description = label["description"]
+                 if "good for newcomers" in description.lower():
+                       good_first_issue_count += 1
+        print(good_first_issue_count)
+        return total_issues,good_first_issue_count
     return None, None
