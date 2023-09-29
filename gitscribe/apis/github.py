@@ -17,10 +17,8 @@ def get_repo_issues(username, repo_name):
    label_name ='good%20first%20issue'
     url = f'https://api.github.com/repos/{username}/{repo_name}/issues?labels={label_name}'
     response = requests.get(url)
-    print(response)
     if response.status_code == 200:
         issues = response.json()   
-        print(issues)
         total_issues=0
         good_first_issue_count=0
         for issue in issues:
