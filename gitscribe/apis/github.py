@@ -28,6 +28,5 @@ def get_repo_issues(username, repo_name):
                  description = label["description"]
                  if "good for newcomers" in description.lower():
                        good_first_issue_count += 1
-        print(good_first_issue_count)
         return total_issues,good_first_issue_count
     return None, None
