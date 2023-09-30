@@ -31,7 +31,20 @@ To build and develop gitscribe, follow these steps:
       git clone https://github.com/oss-reva/gitscribe.git
       cd gitscribe
 
-2. Install the package in editable mode:
+2. Create a virtual environment:
+
+   .. code-block:: bash
+
+      python -m venv venv
+      source venv/bin/activate
+
+3. Install requirements:
+
+   .. code-block:: bash
+
+      pip install -r requirements.txt
+
+4. Install the package in editable mode:
 
    .. code-block:: bash
 
