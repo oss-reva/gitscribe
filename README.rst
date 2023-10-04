@@ -7,26 +7,11 @@ gitscribe is a Python Discord bot that provides information about GitHub reposit
 Installation
 ------------
 
-**Install through pip**
+To deploy gitscribe, follow these steps
 
 .. code-block:: bash
          
       pip install gitscribe
-
-To deploy gitscribe, follow these steps:
-
-1. Clone the repository:
-
-   .. code-block:: bash
-   
-      git clone https://github.com/oss-reva/gitscribe.git
-      cd gitscribe
-
-2. Install the package:
-
-   .. code-block:: bash
-
-      pip install .
 
 To build and develop gitscribe, follow these steps:
 
