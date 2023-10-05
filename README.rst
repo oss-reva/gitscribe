@@ -9,9 +9,9 @@ Installation
 
 To deploy gitscribe, follow these steps
 
-         .. code-block:: bash
-                  
-               pip install gitscribe
+       .. code-block:: bash
+                
+             pip install gitscribe
 
 To build and develop gitscribe, follow these steps:
 
