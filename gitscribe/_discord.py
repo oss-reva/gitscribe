@@ -2,7 +2,8 @@
 import re
 import discord
 from discord.ext import commands
-
+from discord import app_commands
+from gitscribe.apis.github import get_repository_info, get_issue_info, get_repo_issues
 from gitscribe.apis.github import get_repository_info, get_issue_info, get_repo_issues, issues_label_stats
 from gitscribe.utils import format_github_info
 
@@ -29,9 +30,28 @@ bot = commands.Bot(
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
 
+    for guild in bot.guilds:
+        try:
+            synced = await bot.tree.sync()
+            
+        except Exception as e:
+            print(str(e))
+        
 
-@bot.command()
-async def repo(ctx, repo_link):
+@bot.event
+async def on_message(message):  
+    if message.author.id == bot.user.id:
+        return           
+    await bot.process_commands(message)
+
+
+# Hybrid commands
+@bot.hybrid_command(name="repo", with_app_command=True, description="Create wallets for all members (initialize)")
+async def repo(ctx: commands.Context, repo_link):
+    # In case of prefixed command repo_link can be null
+    if not repo_link:
+        await ctx.send('Please provide a valid repo link')
+        return 
     # Extract the GitHub username and repository name from the link
     match = re.match(r'https://github.com/([^/]+)/([^/]+)', repo_link)
     if not match:
@@ -51,8 +71,13 @@ async def repo(ctx, repo_link):
         await ctx.send('Repository not found or an error occurred.')
 
 
-@bot.command()
-async def issue(ctx, issue_link):
+@bot.hybrid_command(name="issue", with_app_command=True, description="Get info about an issue")
+async def issue(ctx: commands.Context, issue_link):
+
+    # In case of prefixed command issue_link can be null
+    if not issue_link:
+        await ctx.send('Please provide a valid repo link')
+        return
     # Use Regex to extract the GitHub username, repository name, and issue number from the link
     match = re.match(
         r'https://github.com/([^/]+)/([^/]+)/issues/(\d+)', issue_link)
@@ -70,3 +95,11 @@ async def issue(ctx, issue_link):
         await ctx.send(format_github_info(repo_data, None, None, issue_data))
     else:
         await ctx.send('Issue or repository not found or an error occurred.')
+
+
+# Error handling
+@bot.event   
+async def on_command_error(ctx, error):
+    print(error)
+    embed = discord.Embed(title=error, color=0x00ff00)
+    await ctx.send(embed=embed)
