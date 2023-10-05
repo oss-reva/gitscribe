@@ -5,7 +5,6 @@ def format_github_info(repo_data, total_issues=None, good_first_issue_count=None
     description = repo_data['description'] or '*No description*'
     stars = repo_data['stargazers_count']
     forks = repo_data['forks_count']
-    url = repo_data['html_url']
 
     formatted_info = (
         f"__**Repository Info**__\n"
@@ -13,7 +12,6 @@ def format_github_info(repo_data, total_issues=None, good_first_issue_count=None
         f"**Description:** {description}\n"
         f"**Stars:** {stars}\n"
         f"**Forks:** {forks}\n"
-        f"**URL:** {url}\n"
     )
 
     if total_issues is not None:

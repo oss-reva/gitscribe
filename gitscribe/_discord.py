@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from gitscribe.apis.github import get_repository_info, get_issue_info, get_repo_issues
+from gitscribe.apis.github import get_repository_info, get_issue_info, get_repo_issues, issues_label_stats
 from gitscribe.utils import format_github_info
 
 
@@ -62,9 +63,10 @@ async def repo(ctx: commands.Context, repo_link):
     repo_data = get_repository_info(username, repo_name)
 
     if repo_data:
-        total_issues, good_first_issue_count = get_repo_issues(
-            username, repo_name)
-        await ctx.send(format_github_info(repo_data, total_issues, good_first_issue_count))
+        all_issues = get_repo_issues(username, repo_name)
+
+        good_first_issue_count = issues_label_stats(all_issues).get("good first issue", 0)
+        await ctx.send(format_github_info(repo_data, len(all_issues), good_first_issue_count))
     else:
         await ctx.send('Repository not found or an error occurred.')
 

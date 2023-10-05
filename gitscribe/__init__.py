@@ -1,1 +1,1 @@
-from .discord import *
+from ._discord import *
