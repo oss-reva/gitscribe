@@ -3,7 +3,6 @@ import re
 import discord
 from discord.ext import commands
 from discord import app_commands
-
 from gitscribe.apis.github import get_repository_info, get_issue_info, get_repo_issues
 from gitscribe.utils import format_github_info
 
@@ -26,21 +25,17 @@ bot = commands.Bot(
 )
 
 
-
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
 
     for guild in bot.guilds:
         try:
-            
-            # synced = await bot.tree.sync(guild=discord.Object(id=guild.id))
             synced = await bot.tree.sync()
             
         except Exception as e:
             print(str(e))
         
-
 
 @bot.event
 async def on_message(message):  
@@ -50,11 +45,8 @@ async def on_message(message):
 
 
 # Hybrid commands
-
 @bot.hybrid_command(name="repo", with_app_command=True, description="Create wallets for all members (initialize)")
-# @app_commands.guilds(*guild_ids)
 async def repo(ctx: commands.Context, repo_link):
-
     # In case of prefixed command repo_link can be null
     if not repo_link:
         await ctx.send('Please provide a valid repo link')
@@ -78,7 +70,6 @@ async def repo(ctx: commands.Context, repo_link):
 
 
 @bot.hybrid_command(name="issue", with_app_command=True, description="Get info about an issue")
-# @app_commands.guilds(*guild_ids)
 async def issue(ctx: commands.Context, issue_link):
 
     # In case of prefixed command issue_link can be null
@@ -102,7 +93,6 @@ async def issue(ctx: commands.Context, issue_link):
         await ctx.send(format_github_info(repo_data, None, None, issue_data))
     else:
         await ctx.send('Issue or repository not found or an error occurred.')
-
 
 
 # Error handling
